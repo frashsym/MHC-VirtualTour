@@ -1,0 +1,14 @@
+# Ignore global node modules
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Env files
+.env
+backend/.env
+frontend/.env
+
+# Build output
+dist
+build
