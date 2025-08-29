@@ -1,4 +1,4 @@
-// backend/controller/StuffController.js
+// backend/controllers/StuffController.js
 import Stuff from "../models/Stuff.js";
 import Room from "../models/Room.js";
 import Tag from "../models/Tag.js";

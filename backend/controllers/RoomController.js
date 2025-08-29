@@ -1,4 +1,4 @@
-// backend/controller/RoomController.js
+// backend/controllers/RoomController.js
 import Room from "../models/Room.js";
 
 // ambil semua rooms

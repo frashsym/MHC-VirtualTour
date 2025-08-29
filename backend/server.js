@@ -19,7 +19,7 @@ app.use(express.json());
 // Serve file gambar
 app.use(express.static("public"));
 
-// Test koneksi db
+// Test koneksi + sync models
 (async () => {
   try {
     await db.authenticate();
@@ -28,6 +28,7 @@ app.use(express.static("public"));
     console.error("❌ Database error:", error);
   }
 })();
+
 
 // Routes
 app.use(RoomRoute);

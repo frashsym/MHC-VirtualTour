@@ -1,4 +1,4 @@
-// backend/controller/TagController.js
+// backend/controllers/TagController.js
 import Tag from "../models/Tag.js";
 import Stuff from "../models/Stuff.js";
 

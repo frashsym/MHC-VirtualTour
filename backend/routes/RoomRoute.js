@@ -3,7 +3,7 @@ import express from "express";
 import {
   getRooms,
   getRoomById,
-} from "../controller/RoomController.js";
+} from "../controllers/RoomController.js";
 
 const router = express.Router();
 
