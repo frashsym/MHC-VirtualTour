@@ -2,33 +2,43 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface) {
-    await queryInterface.bulkInsert("stuffs", [
-      {
-        name: "PC Gaming",
-        description: "Komputer untuk praktikum",
-        position_x: 10.5,
-        position_y: 5.2,
-        info_image_url: "/images/pc.jpg",
-        room_id: 1,
-        tag_id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("stuffs", {
+      id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+      name: { type: Sequelize.STRING, allowNull: false },
+      description: { type: Sequelize.TEXT, allowNull: true },
+      position_x: { type: Sequelize.FLOAT, allowNull: true },
+      position_y: { type: Sequelize.FLOAT, allowNull: true },
+      info_image_url: { type: Sequelize.STRING, allowNull: true },
+
+      // foreign keys
+      room_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "rooms", // harus sama dengan nama tabel rooms
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      {
-        name: "Rak Buku",
-        description: "Rak kayu berisi koleksi buku",
-        position_x: 2.0,
-        position_y: 3.0,
-        info_image_url: "/images/rak.jpg",
-        room_id: 2,
-        tag_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      tag_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "tags", // harus sama dengan nama tabel tags
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL", // kalau tag dihapus, stuff tetap ada
       },
-    ]);
+
+      createdAt: { type: Sequelize.DATE, allowNull: false },
+      updatedAt: { type: Sequelize.DATE, allowNull: false },
+    });
   },
+
   async down(queryInterface) {
-    await queryInterface.bulkDelete("stuffs", null, {});
+    await queryInterface.dropTable("stuffs");
   },
 };

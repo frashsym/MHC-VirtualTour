@@ -1,24 +1,38 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import "./style.css";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+async function loadRooms() {
+  try {
+    const res = await fetch("http://localhost:5000/rooms");
+    const rooms = await res.json();
 
-setupCounter(document.querySelector('#counter'))
+    const container = document.getElementById("app");
+    container.innerHTML = "<h1>MHC Virtual Tour</h1>";
+
+    rooms.forEach((room) => {
+      const section = document.createElement("div");
+      section.classList.add("room");
+
+      section.innerHTML = `
+        <h2>${room.name}</h2>
+        <p>${room.description}</p>
+        <div id="panorama-${room.id}" class="panorama"></div>
+      `;
+
+      container.appendChild(section);
+
+      // render panorama (pannellum global dari CDN)
+      pannellum.viewer(`panorama-${room.id}`, {
+        type: "equirectangular",
+        panorama: room.panorama_url,
+        autoLoad: true,
+        pitch: 10,
+        yaw: 180,
+        hfov: 110,
+      });
+    });
+  } catch (err) {
+    console.error("Gagal ambil rooms:", err);
+  }
+}
+
+loadRooms();
